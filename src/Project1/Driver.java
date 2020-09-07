@@ -6,7 +6,7 @@ import java.time.format.*;
 public class Driver {
 
     static double totalProtein = 0;
-    DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("HH:mm");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm a");
 
     /*
     Returns the localtime for when the user should eat his next meal
@@ -19,9 +19,11 @@ public class Driver {
         // get hours of how long protein takes to digest
         int hours = food.absorptionTimeInHours;
 
+        LocalTime nextMealTime = LocalTime.now().plusHours(hours);
+        System.out.println("Next time you can eat is: " + nextMealTime.format(formatter));
         // return the date when the user should eat next (when protein is fully digested
-        //return LocalTime.now().plusMinutes(1); // uncomment to test, returns the time one minute after current time
-        return LocalTime.now().plusHours(hours);
+        return LocalTime.now().plusMinutes(1); // uncomment to test, returns the time one minute after current time
+        //return nextMealTime;
     }
 
     /*
@@ -31,7 +33,7 @@ public class Driver {
         try {
             boolean flag = true;
             while(flag) {
-                Thread.sleep(600000); // check every 10 minutes if time has passed
+                Thread.sleep(60000); // check every 10 minutes if time has passed
                 LocalTime currentTime = LocalTime.now();
                 if(currentTime.equals(time) || currentTime.isAfter(time)) {
                     System.out.println("Protein from last meal has fully digested, time to eat again!");
@@ -50,9 +52,7 @@ public class Driver {
 
     public static void main(String[] args) {
         Driver app = new Driver();
-        ChickenProtein mealOne = new ChickenProtein(40, 2, "Chicken");
-        System.out.println("Total protein: " + totalProtein);
-        //System.out.println(app.calculateTimeForNextMeal(mealOne));
+        ChickenProtein mealOne = new ChickenProtein(40, 2, "Chicken"); // add first meal of day
         app.alertUser(app.calculateTimeForNextMeal(mealOne));
     }
 }
