@@ -10,5 +10,6 @@ public class FoodWithProtein {
         this.proteinInGrams = proteinInGrams;
         this.absorptionTimeInHours = absorptionTimeInHours;
         this.name = name;
+        Driver.addProtein(proteinInGrams);
     }
 }
